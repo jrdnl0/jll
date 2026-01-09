@@ -5,7 +5,6 @@
 
 # include "snode.h"
 
-typedef int (*data_compfunc_t)(const jll_data_t *, const jll_data_t *);
 
 typedef struct jll_singly_list_type
 {
@@ -47,10 +46,10 @@ jll_data_payload_t * jll_slist_remove_all(jll_slist_t *);
 const jll_data_t * jll_slist_index_pos(jll_slist_t *, size_t);
 const jll_data_t * jll_slist_index_head(jll_slist_t *);
 const jll_data_t * jll_slist_index_tail(jll_slist_t *);
-const jll_data_t * jll_slist_find_first_occurence(jll_slist_t *, bool (*)(const jll_data_t *));
-const jll_data_t * jll_slist_find_nth_occurence(jll_slist_t *, bool (*)(const jll_data_t *));
-// bool jll_slist_check_if_sorted(jll_slist_t *, int (*)(const jll_data_t *, const jll_data_t *));
-bool jll_slist_check_if_contains(jll_slist_t *, int (*)(const jll_data_t *));
+const jll_data_t * jll_slist_find_first_occurrence(jll_slist_t *, bool (*)(const jll_data_t *));
+const jll_data_t * jll_slist_find_nth_occurrence(jll_slist_t *, bool (*)(const jll_data_t *), size_t);
+bool jll_slist_check_if_sorted(jll_slist_t *, int (*)(const jll_data_t *, const jll_data_t *));
+bool jll_slist_check_if_contains(jll_slist_t *, bool (*)(const jll_data_t *));
 
 /*list manipulation*/
 void jll_slist_reversal(jll_slist_t *);

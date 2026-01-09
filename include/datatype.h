@@ -10,6 +10,7 @@ typedef struct jll_data_type
 
 } jll_data_t;
 
+typedef int (*data_compfunc_t)(const jll_data_t *, const jll_data_t *);
 
 typedef struct jll_data_payload_type
 {

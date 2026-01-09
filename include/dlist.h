@@ -5,7 +5,6 @@
 
 # include "dnode.h"
 
-typedef int (*data_compfunc_t)(const jll_data_t *, const jll_data_t *);
 
 typedef struct jll_doubly_list_type
 {
@@ -38,8 +37,8 @@ void jll_dlist_insert_from_dlist(jll_dlist_t *, const jll_dlist_t *);
 /* deletion functions */
 const jll_data_t * jll_dlist_remove_head(jll_dlist_t *);
 const jll_data_t * jll_dlist_remove_tail(jll_dlist_t *);
-const jll_data_t * jll_slist_remove_cond_first(jll_dlist_t *, bool (*)(const jll_data_t *));
-jll_data_payload_t * jll_dlist_remove_cond_first_n(jll_dlist_t *, bool (*)(const jll_data_t *));
+const jll_data_t * jll_dlist_remove_cond_first(jll_dlist_t *, bool (*)(const jll_data_t *));
+jll_data_payload_t * jll_dlist_remove_cond_first_n(jll_dlist_t *, bool (*)(const jll_data_t *), size_t *);
 jll_data_payload_t * jll_dlist_remove_cond_all(jll_dlist_t *, bool (*)(const jll_data_t *));
 jll_data_payload_t * jll_dlist_remove_all(jll_dlist_t *);
 
@@ -48,10 +47,10 @@ jll_data_payload_t * jll_dlist_remove_all(jll_dlist_t *);
 const jll_data_t * jll_dlist_index_pos(jll_dlist_t *, size_t);
 const jll_data_t * jll_dlist_index_head(jll_dlist_t *);
 const jll_data_t * jll_dlist_index_tail(jll_dlist_t *);
-const jll_data_t * jll_dlist_find_find_first_occurence(jll_dlist_t *, bool (*)(const jll_data_t *));
-const jll_data_t * jll_dlist_find_nth_ocurrence(jll_dlist_t *, bool (*)(const jll_data_t *));
-// bool jll_dlist_check_if_sorted(jll_dlist_t *, int (*)(const jll_data_t *, const jll_data_t *));
-bool jll_dlist_check_if_contains(jll_dlist_t *, int (*)(const jll_data_t *));
+const jll_data_t * jll_dlist_find_first_occurrence(jll_dlist_t *, bool (*)(const jll_data_t *));
+const jll_data_t * jll_dlist_nth_occurrence(jll_dlist_t *, bool (*)(const jll_data_t *), size_t);
+bool jll_dlist_check_if_sorted(jll_dlist_t *, int (*)(const jll_data_t *, const jll_data_t *));
+bool jll_dlist_check_if_contains(jll_dlist_t *, bool (*)(const jll_data_t *));
 
 /* list manipulation */
 void jll_dlist_reversal(jll_dlist_t *);
