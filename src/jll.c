@@ -1,9 +1,17 @@
 
-# include "./include/jll.h"
+# include "./include/node.h"
+# include "./include/llist.h"
 # include <stdlib.h>
 
 
-
+/**
+ * @brief Allocates space for a single jll_node_t
+ * 
+ * @param dptr const jll_data_t reference to become the data_ptr
+ * field in the newly constructed node.
+ * 
+ * @returns Pointer to the newly constructed node.
+ */
 jll_node_t * jll_allocate_node(const jll_data_t * dptr)
 {
     jll_node_t * new_node_ptr = (jll_node_t *)malloc(sizeof(jll_node_t));
@@ -13,6 +21,16 @@ jll_node_t * jll_allocate_node(const jll_data_t * dptr)
     return new_node_ptr;
 }
 
+/**
+ * @brief Deallocates space for a single jll_node_t
+ * 
+ * @param nptr Pointer to the jll_node_t which is to be
+ * deallocated.
+ * 
+ * @returns A constant jll_data_t pointer which was 
+ * held as the data_ptr field of the recently deallocated node.
+ * 
+ */
 const jll_data_t * jll_deallocate_node(jll_node_t * nptr)
 {
     const jll_data_t * retdata = nptr->data_ptr;
