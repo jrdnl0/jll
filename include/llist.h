@@ -22,7 +22,7 @@ typedef struct jll_list_type
 } jll_list_t;
 
 jll_list_t * jll_allocate_list(int (*)(const jll_data_t *, const jll_data_t *));
-void jll_dealloc_list(jll_list_t *);
+void jll_dealloc_list(jll_list_t *, void (*)(jll_data_t *));
 
 void jll_append_head(jll_list_t *, const jll_data_t *);
 void jll_append_tail(jll_list_t *, const jll_data_t *);

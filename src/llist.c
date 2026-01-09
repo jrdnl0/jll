@@ -38,6 +38,28 @@ void jll_append_head(jll_list_t * lptr, const jll_data_t * dptr)
     lptr->length++;
 }
 
+void jll_dealloc_list(jll_list_t * lptr, void (*data_dealloc_func)(jll_data_t * dptr))
+{
+    assert(lptr);
+    assert(data_dealloc_func);
+
+
+    jll_node_t * front_ptr = lptr->head_node_ptr;
+    jll_node_t * back_ptr  = NULL;
+
+
+    while (front_ptr)
+    {
+        back_ptr = front_ptr;
+        front_ptr = front_ptr->next_ptr;
+
+        const jll_data_t * free_data_ptr = jll_deallocate_node(back_ptr);
+        data_dealloc_func((jll_data_t *)free_data_ptr); // Use user-defined deallocate function on node data.
+    }
+
+    free(lptr);  // Finally, free containing list structure.
+}
+
 
 void jll_append_tail(jll_list_t * lptr, const jll_data_t * dptr)
 {
