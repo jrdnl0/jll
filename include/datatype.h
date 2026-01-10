@@ -3,6 +3,7 @@
 # define __JLL_DATA_H__
 
 # include <stddef.h>
+# include <stdbool.h>
 
 typedef struct jll_data_type
 {

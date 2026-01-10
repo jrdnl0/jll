@@ -50,6 +50,7 @@ const jll_data_t * jll_slist_find_first_occurrence(jll_slist_t *, bool (*)(const
 const jll_data_t * jll_slist_find_nth_occurrence(jll_slist_t *, bool (*)(const jll_data_t *), size_t);
 bool jll_slist_check_if_sorted(jll_slist_t *, int (*)(const jll_data_t *, const jll_data_t *));
 bool jll_slist_check_if_contains(jll_slist_t *, bool (*)(const jll_data_t *));
+bool jll_slist_is_empty(jll_slist_t *);
 
 /*list manipulation*/
 void jll_slist_reversal(jll_slist_t *);
