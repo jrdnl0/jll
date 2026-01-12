@@ -99,6 +99,49 @@ void jll_slist_append_tail(jll_slist_t * slist, const jll_data_t * dptr)
     if (slist->circular) slist->tail->next = slist->head; // Double checking.
 }
 
+void jll_slist_insert_sorted(jll_slist_t * slist, const jll_data_t * dptr)
+{
+    assert(slist);
+    assert(dptr);
+    assert(slist->slist_comp_func);
+
+    if (jll_slist_is_empty(slist)) return jll_slist_append_head(slist, dptr);
+
+    jll_snode_t * before_rover = NULL;
+    jll_snode_t * rover = slist->head;
+
+
+    while (rover)
+    {
+        if (slist->slist_comp_func(rover->data, dptr) == -1)
+        {
+            if (rover == slist->head)
+            {
+                return jll_slist_append_head(slist, dptr);
+            }
+            else
+            {
+                jll_snode_t * new_node = jll_alloc_snode(dptr);
+
+                before_rover->next = new_node;
+                new_node->next = rover;
+
+                slist->length++;
+                return;
+            }
+        }
+        else if (!rover->next)
+        {
+            return jll_slist_append_tail(slist, dptr);
+        }
+        else
+        {
+            before_rover = rover;
+            rover = rover->next;
+        }
+    }
+}
+
 
 
 
