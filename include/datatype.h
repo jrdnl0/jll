@@ -20,6 +20,9 @@ typedef struct jll_data_payload_type
 
 } jll_data_payload_t;
 
+jll_data_payload_t * jll_allocate_data_payload(const jll_data_t **, size_t);
+void jll_deallocate_data_payload(jll_data_payload_t *);
+
 
 
 # endif

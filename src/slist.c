@@ -51,3 +51,158 @@ void jll_dealloc_slist(jll_slist_t * slist, void (*data_dealloc_func)(const jll_
 }
 
 
+/* insertion functions */
+
+void jll_slist_append_head(jll_slist_t * slist, const jll_data_t * dptr)
+{
+    assert(slist);
+    assert(dptr);
+
+    jll_snode_t * newptr = jll_alloc_snode(dptr);
+
+    if (jll_slist_is_empty(slist))
+    {
+        slist->tail = newptr;
+        slist->head = newptr;
+    }
+    else
+    {
+        newptr->next = slist->head;
+        slist->head  = newptr;
+    }
+
+    slist->length++;
+    if (slist->circular) slist->tail->next = slist->head; // Double checking.
+}
+
+
+void jll_slist_append_tail(jll_slist_t * slist, const jll_data_t * dptr)
+{
+    assert(slist);
+    assert(dptr);
+
+
+    jll_snode_t * newptr = jll_alloc_snode(dptr);
+
+    if (jll_slist_is_empty(slist))
+    {
+        slist->tail = newptr;
+        slist->head = newptr;
+    }
+    else
+    {
+        slist->tail->next = newptr;
+        slist->tail = newptr;
+    }
+
+    slist->length++;
+    if (slist->circular) slist->tail->next = slist->head; // Double checking.
+}
+
+
+
+
+/* deletion functions */
+
+const jll_data_t * jll_slist_remove_head(jll_slist_t * slist)
+{
+    assert(slist);
+
+    if (jll_slist_is_empty(slist))
+    {
+        return NULL;
+    }
+
+    
+    const jll_data_t * retdata;
+
+    if (!slist->head->next)
+    {
+        retdata = jll_dealloc_snode(slist->head);
+        slist->head = NULL;
+        slist->tail = NULL;
+    }
+    else
+    {
+        jll_snode_t * newhead = slist->head->next;
+        retdata = jll_dealloc_snode(slist->head);
+        slist->head = newhead;
+    }
+
+    slist->length--;
+    if ((slist->circular) && (slist->tail)) slist->tail->next = slist->head;
+
+    return retdata;
+}
+
+const jll_data_t * jll_slist_remove_tail(jll_slist_t * slist)
+{
+
+    assert(slist);
+
+    if (jll_slist_is_empty(slist)) return NULL;
+
+    const jll_data_t * retdata;
+    jll_snode_t * newtail;
+
+    if (slist->length == 1)
+    {
+        retdata = jll_dealloc_snode(slist->tail);
+        slist->head = NULL;
+        slist->tail = NULL;
+    }
+    else
+    {
+        newtail = slist->head;
+        while ((newtail) && (newtail->next != slist->tail)) newtail = newtail->next;
+
+        retdata = jll_dealloc_snode(slist->tail);
+        slist->tail = newtail;
+
+        if (slist->circular) slist->tail->next = slist->head;
+        else slist->tail->next = NULL;
+    }
+
+    slist->length--;
+    return retdata;
+}
+
+
+const jll_data_t * jll_slist_remove_cond_first(jll_slist_t * slist, bool (*compfunc)(const jll_data_t *))
+{
+    assert(slist);
+    assert(compfunc);
+
+
+    jll_snode_t * fptr = slist->head;
+    jll_snode_t * bptr = NULL;
+
+    while (fptr)
+    {
+        if (compfunc(fptr->data))
+        {
+            if (fptr == slist->head)
+            {
+                return jll_slist_remove_head(slist);
+            }
+            else if (fptr == slist->tail)
+            {
+                return jll_slist_remove_tail(slist);
+            }
+            else
+            {
+                bptr->next = fptr->next;
+                const jll_data_t * retdata = jll_dealloc_snode(fptr);
+                slist->length--;
+                return retdata;
+            }
+        }
+        else
+        {
+            bptr = fptr;
+            fptr = fptr->next;
+        }
+    }
+
+    return NULL;
+}
