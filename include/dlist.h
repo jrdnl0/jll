@@ -39,6 +39,7 @@ const jll_data_t * jll_dlist_remove_index(jll_dlist_t *, size_t);
 const jll_data_t * jll_dlist_remove_head(jll_dlist_t *);
 const jll_data_t * jll_dlist_remove_tail(jll_dlist_t *);
 const jll_data_t * jll_dlist_remove_cond_first(jll_dlist_t *, bool (*)(const jll_data_t *));
+const jll_data_t * jll_dlist_remove_cond_nth(jll_dlist_t *, bool (*)(const jll_data_t *), size_t);
 jll_data_payload_t * jll_dlist_remove_cond_first_n(jll_dlist_t *, bool (*)(const jll_data_t *), size_t);
 jll_data_payload_t * jll_dlist_remove_cond_all(jll_dlist_t *, bool (*)(const jll_data_t *));
 jll_data_payload_t * jll_dlist_remove_all(jll_dlist_t *);

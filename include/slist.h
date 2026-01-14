@@ -1,4 +1,5 @@
 
+
 # ifndef __JLL_SLIST_H__
 # define __JLL_SLIST_H__
 
@@ -35,10 +36,12 @@ void jll_slist_insert_from_payload(jll_slist_t *, const jll_data_payload_t *);
 void jll_slist_insert_from_slist(jll_slist_t *, const jll_slist_t *);
 
 /*deletion functions*/
+const jll_data_t * jll_slist_remove_index(jll_slist_t *, size_t);
 const jll_data_t * jll_slist_remove_head(jll_slist_t *);
 const jll_data_t * jll_slist_remove_tail(jll_slist_t *);
 const jll_data_t * jll_slist_remove_cond_first(jll_slist_t *, bool (*)(const jll_data_t *));
-jll_data_payload_t * jll_slist_remove_cond_first_n(jll_slist_t *, bool (*)(const jll_data_t *), size_t *);
+const jll_data_t * jll_slist_remove_cond_nth(jll_slist_t *, bool (*)(const jll_data_t *), size_t);
+jll_data_payload_t * jll_slist_remove_cond_first_n(jll_slist_t *, bool (*)(const jll_data_t *), size_t);
 jll_data_payload_t * jll_slist_remove_cond_all(jll_slist_t *, bool (*)(const jll_data_t *));
 jll_data_payload_t * jll_slist_remove_all(jll_slist_t *);
 
@@ -48,7 +51,7 @@ const jll_data_t * jll_slist_index_head(jll_slist_t *);
 const jll_data_t * jll_slist_index_tail(jll_slist_t *);
 const jll_data_t * jll_slist_find_first_occurrence(jll_slist_t *, bool (*)(const jll_data_t *));
 const jll_data_t * jll_slist_find_nth_occurrence(jll_slist_t *, bool (*)(const jll_data_t *), size_t);
-bool jll_slist_check_if_sorted(jll_slist_t *, int (*)(const jll_data_t *, const jll_data_t *));
+bool jll_slist_check_if_sorted(jll_slist_t *);
 bool jll_slist_check_if_contains(jll_slist_t *, bool (*)(const jll_data_t *));
 bool jll_slist_is_empty(jll_slist_t *);
 

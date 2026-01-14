@@ -271,12 +271,35 @@ const jll_data_t * jll_dlist_remove_cond_first(jll_dlist_t * dlist, bool (*compf
     return NULL;
 }
 
+const jll_data_t * jll_dlist_remove_cond_nth(jll_dlist_t * dlist, bool (*compfunc)(const jll_data_t *), size_t n)
+{
+    assert(dlist);
+    assert(compfunc);
+
+    if (n >= dlist->length) return NULL;
+
+    size_t counter = 0;
+
+    jll_dnode_t * rover = dlist->head;
+
+    while (rover)
+    {
+        if (compfunc(rover->data)) counter++;
+        if (counter == n) return rover->data;
+        else rover = rover->next;
+    }
+
+    return NULL;
+}
+
+
 jll_data_payload_t * jll_dlist_remove_cond_first_n(jll_dlist_t * dlist, bool (*compfunc)(const jll_data_t *), size_t n)
 {
 
     assert(dlist);
     assert(compfunc);
-    assert((n > 0));
+
+    if (n >= dlist->length) return NULL;
 
     size_t index = 0;
     size_t found = 0;
@@ -341,11 +364,16 @@ jll_data_payload_t * jll_dlist_remove_all(jll_dlist_t * dlist)
     assert(dlist);
     if (jll_dlist_is_empty(dlist)) return NULL;
 
+    size_t index  = 0;
     size_t veclen = dlist->length;
     jll_data_t ** vector = (jll_data_t **)malloc(veclen * sizeof(jll_data_t *));
 
-    for (size_t k = 0; k < veclen; k++)
-        vector[k] = jll_dlist_remove_index(dlist, k);
+
+    while (!jll_dlist_is_empty(dlist))
+    {
+        vector[index] = jll_dlist_remove_head(dlist);
+        index++;
+    }
 
     jll_data_payload_t * newpayload = jll_allocate_data_payload((const jll_data_t **)vector, veclen);
     return newpayload;
